@@ -1,8 +1,6 @@
-[ ![Download](https://api.bintray.com/packages/bincrafters/public-conan/nanomsg%3Abincrafters/images/download.svg?version=1.1.2%3Astable) ](https://bintray.com/bincrafters/public-conan/nanomsg%3Abincrafters/1.1.2%3Astable/link)
+[ ![Download](https://api.bintray.com/packages/bincrafters/public-conan/nanomsg%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/nanomsg%3Abincrafters/_latestVersion)
 [![Build Status](https://travis-ci.org/bincrafters/conan-nanomsg.svg?branch=stable%2F1.1.2)](https://travis-ci.org/bincrafters/conan-nanomsg)
-[![Build status](https://ci.appveyor.com/api/projects/status/a5snyovachh6e8nh?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-nanomsg)
-
-Brief statement describing nanomsg
+[![Build status](https://ci.appveyor.com/api/projects/status/sxs9n6vb8nqa92l5?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-nanomsg)
 
 [Conan.io](https://conan.io) package for [nanomsg](https://github.com/someauthor/nanomsg) project
 
@@ -49,4 +47,4 @@ The following command both runs all the steps of the conan file, and publishes t
     $ conan upload nanomsg/1.1.2@bincrafters/stable --all -r bincrafters
 
 ## License
-[LICENSE_TYPE](LICENSE)
+[MIT](LICENSE)
