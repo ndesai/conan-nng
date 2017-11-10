@@ -11,9 +11,10 @@ class NanomsgConan(ConanFile):
     url="https://github.com/bincrafters/conan-nanomsg"
     description = "a socket library that provides several common communication patterns"
     license = "https://github.com/nanomsg/nanomsg/blob/master/COPYING"
-    exports = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt"]
     settings = "os", "compiler", "build_type", "arch"
     short_paths = True
+    generators = "cmake"
     options = {"shared": [True, False],
                "enable_doc": [True, False],
                "enable_getaddrinfo_a": [True, False],
@@ -43,7 +44,7 @@ class NanomsgConan(ConanFile):
         cmake.definitions["NN_TESTS"] = self.options.enable_tests
         cmake.definitions["NN_TOOLS"] = self.options.enable_tools
         cmake.definitions["NN_ENABLE_NANOCAT"] = self.options.enable_nanocat
-        cmake.configure(source_dir="sources")
+        cmake.configure()
         cmake.build()
         cmake.install()
         
