@@ -10,7 +10,8 @@ class NanomsgConan(ConanFile):
     version = "1.1.2"
     url="https://github.com/bincrafters/conan-nanomsg"
     description = "a socket library that provides several common communication patterns"
-    license = "https://github.com/nanomsg/nanomsg/blob/master/COPYING"
+    license = "MIT"
+    exports_sources = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
     settings = "os", "compiler", "build_type", "arch"
     short_paths = True
@@ -22,13 +23,15 @@ class NanomsgConan(ConanFile):
                "enable_tools": [True, False],
                "enable_nanocat": [True, False],
                }
-    default_options = "shared=False", \
-        "enable_doc=False", \
-        "enable_getaddrinfo_a=True", \
-        "enable_tests=False", \
-        "enable_tools=True", \
+    default_options = (
+        "shared=False", 
+        "enable_doc=False", 
+        "enable_getaddrinfo_a=True", 
+        "enable_tests=False", 
+        "enable_tools=True", 
         "enable_nanocat=True"
-
+    )
+        
     def source(self):
         source_url = "https://github.com/nanomsg/nanomsg"
         tools.get("{0}/archive/{1}.tar.gz".format(source_url, self.version))
