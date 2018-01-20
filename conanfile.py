@@ -11,18 +11,21 @@ class NanomsgConan(ConanFile):
     url="https://github.com/bincrafters/conan-nanomsg"
     description = "a socket library that provides several common communication patterns"
     license = "MIT"
-    exports_sources = ["LICENSE.md"]
+    exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
     settings = "os", "compiler", "build_type", "arch"
     short_paths = True
     generators = "cmake"
-    options = {"shared": [True, False],
-               "enable_doc": [True, False],
-               "enable_getaddrinfo_a": [True, False],
-               "enable_tests": [True, False],
-               "enable_tools": [True, False],
-               "enable_nanocat": [True, False],
-               }
+    source_subfolder = "source_subfolder"
+    options = {
+        "shared": [True, False],
+       "enable_doc": [True, False],
+       "enable_getaddrinfo_a": [True, False],
+       "enable_tests": [True, False],
+       "enable_tools": [True, False],
+       "enable_nanocat": [True, False],
+    }
+    
     default_options = (
         "shared=False", 
         "enable_doc=False", 
@@ -36,7 +39,7 @@ class NanomsgConan(ConanFile):
         source_url = "https://github.com/nanomsg/nanomsg"
         tools.get("{0}/archive/{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
-        os.rename(extracted_dir, "sources")
+        os.rename(extracted_dir, self.source_subfolder)
         #Rename to "sources" is a convention to simplify later steps
 
     def build(self):
@@ -52,7 +55,7 @@ class NanomsgConan(ConanFile):
         cmake.install()
         
     def package(self):
-        self.copy(pattern="LICENSE")
+        self.copy(pattern="LICENSE", dst="license", src=self.source_subfolder)
         self.copy("*.h", dst="include", src="install/include")
         self.copy("*.dll", dst="bin", src="install/bin")
         self.copy("*.lib", dst="lib", src="install/lib")
