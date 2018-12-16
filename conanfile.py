@@ -8,39 +8,35 @@ import os
 class NanomsgConan(ConanFile):
     name = "nanomsg"
     version = "1.1.2"
-    url="https://github.com/bincrafters/conan-nanomsg"
-    description = "a socket library that provides several common communication patterns"
+    description = "Simple high-performance implementation of several scalability protocols"
+    topics = ("conan", "nanomsg", "communication", "messaging", "protocols")
+    url = "https://github.com/bincrafters/conan-nanomsg"
+    homepage = ""
+    author = "Bincrafters <bincrafters@gmail.com>"
     license = "MIT"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
     settings = "os", "compiler", "build_type", "arch"
-    short_paths = True
     generators = "cmake"
-    source_subfolder = "source_subfolder"
+    short_paths = True
     options = {
-        "shared": [True, False],
+       "shared": [True, False],
        "enable_doc": [True, False],
        "enable_getaddrinfo_a": [True, False],
        "enable_tests": [True, False],
        "enable_tools": [True, False],
        "enable_nanocat": [True, False],
     }
-    
-    default_options = (
-        "shared=False", 
-        "enable_doc=False", 
-        "enable_getaddrinfo_a=True", 
-        "enable_tests=False", 
-        "enable_tools=True", 
-        "enable_nanocat=True"
-    )
-        
+
+    default_options = {'shared': False, 'enable_doc': False, 'enable_getaddrinfo_a': True, 'enable_tests': False, 'enable_tools': True, 'enable_nanocat': True}
+
+    _source_subfolder = "source_subfolder"
+
     def source(self):
         source_url = "https://github.com/nanomsg/nanomsg"
         tools.get("{0}/archive/{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
-        os.rename(extracted_dir, self.source_subfolder)
-        #Rename to "sources" is a convention to simplify later steps
+        os.rename(extracted_dir, self._source_subfolder)
 
     def build(self):
         cmake = CMake(self)
@@ -53,9 +49,9 @@ class NanomsgConan(ConanFile):
         cmake.configure()
         cmake.build()
         cmake.install()
-        
+
     def package(self):
-        self.copy(pattern="LICENSE", dst="license", src=self.source_subfolder)
+        self.copy(pattern="LICENSE", dst="license", src=self._source_subfolder)
         self.copy("*.h", dst="include", src="install/include")
         self.copy("*.dll", dst="bin", src="install/bin")
         self.copy("*.lib", dst="lib", src="install/lib")
