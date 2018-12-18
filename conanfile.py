@@ -34,7 +34,7 @@ class NanomsgConan(ConanFile):
 
     def source(self):
         source_url = "https://github.com/nanomsg/nanomsg"
-        tools.get("{0}/archive/{1}.tar.gz".format(source_url, self.version))
+        tools.get("{0}/archive/{1}.tar.gz".format(source_url, self.version),sha256="3c52165a735c2fb597d2306593ae4b17900688b90113d4115ad8480288f28ccb")
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
 
