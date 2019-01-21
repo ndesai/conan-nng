@@ -21,6 +21,7 @@ class NanomsgConan(ConanFile):
     short_paths = True
     options = {
         "shared": [True, False],
+        "fPIC": [True, False],
         "enable_doc": [True, False],
         "enable_getaddrinfo_a": [True, False],
         "enable_tests": [True, False],
@@ -29,6 +30,7 @@ class NanomsgConan(ConanFile):
     }
     default_options = {
         'shared': False,
+        'fPIC': True,
         'enable_doc': False,
         'enable_getaddrinfo_a': True,
         'enable_tests': False,
@@ -36,6 +38,13 @@ class NanomsgConan(ConanFile):
         'enable_nanocat': True
     }
     _source_subfolder = "source_subfolder"
+
+    def config_options(self):
+        if self.settings.os == "Windows":
+            del self.options.fPIC
+
+    def configure(self):
+        del self.settings.libcxx
 
     def source(self):
         sha256 = "3c52165a735c2fb597d2306593ae4b17900688b90113d4115ad8480288f28ccb"
