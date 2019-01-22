@@ -44,7 +44,7 @@ class NanomsgConan(ConanFile):
             del self.options.fPIC
 
     def configure(self):
-        del self.settings.libcxx
+        del self.settings.compiler.libcxx
 
     def source(self):
         sha256 = "3c52165a735c2fb597d2306593ae4b17900688b90113d4115ad8480288f28ccb"
