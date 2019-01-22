@@ -78,7 +78,7 @@ class NanomsgConan(ConanFile):
         if not self.options.shared:
             self.cpp_info.defines.append("NN_STATIC_LIB=ON")
 
-        if self.settings.os == "Windows" and not not self.options.shared:
+        if self.settings.os == "Windows" and not self.options.shared:
             self.cpp_info.libs.extend(['mswsock', 'ws2_32'])
         elif self.settings.os == "Linux":
             self.cpp_info.libs.extend(['anl', 'pthread'])
