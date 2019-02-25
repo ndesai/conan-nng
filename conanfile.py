@@ -3,6 +3,7 @@
 
 from conans import ConanFile, CMake, tools
 import os
+import shutil
 
 
 class NanomsgConan(ConanFile):
@@ -18,13 +19,13 @@ class NanomsgConan(ConanFile):
     exports_sources = ["CMakeLists.txt"]
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    short_paths = True
+    # short_paths = True
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
         "enable_tests": [True, False],
         "enable_tools": [True, False],
-        "enable_nanocat": [True, False],
+        "enable_nngcat": [True, False],
         "enable_coverage": [True, False],
         "enable_tls": [True, False]
     }
@@ -33,12 +34,12 @@ class NanomsgConan(ConanFile):
         'fPIC': True,
         'enable_tests': False,
         'enable_tools': True,
-        'enable_nanocat': True,
-        'enable_coverage': True,
+        'enable_nngcat': True,
+        'enable_coverage': False,
         'enable_tls': False,
         
     }
-    _source_subfolder = "source_subfolder"
+    source_subfolder = "source_subfolder"
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -51,25 +52,29 @@ class NanomsgConan(ConanFile):
         sha256 = "cec54ed40c8feb5c0c66f81cfd200e9b243639a75d1b6093c95ee55885273205"
         tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, self.version), sha256=sha256)
         extracted_dir = self.name + "-" + self.version
-        os.rename(extracted_dir, self._source_subfolder)
+        os.rename(extracted_dir, self.source_subfolder)
 
-    def _configure_cmake(self):
+        # nng uses "CMAKE_SOURCE_DIR" which doesn't work when
+        # the top-level CMakeLists is wrapped (conan)
+        shutil.copytree(os.path.join(self.source_subfolder, "cmake"), os.path.join(os.getcwd(), "cmake"))
+
+    def configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions["BUILD_SHARED_LIBS"] = self.options.shared
         cmake.definitions["NNG_TESTS"] = self.options.enable_tests
         cmake.definitions["NNG_TOOLS"] = self.options.enable_tools
-        cmake.definitions["NNG_ENABLE_NNGCAT"] = self.options.enable_nanocat
+        cmake.definitions["NNG_ENABLE_NNGCAT"] = self.options.enable_nngcat
         cmake.definitions["NNG_ENABLE_COVERAGE"] = self.options.enable_coverage
         cmake.configure()
         return cmake
 
     def build(self):
-        cmake = self._configure_cmake()
+        cmake = self.configure_cmake()
         cmake.build()
 
     def package(self):
-        self.copy(pattern="COPYING", dst="licenses", src=self._source_subfolder)
-        cmake = self._configure_cmake()
+        self.copy(pattern="COPYING", dst="licenses", src=self.source_subfolder)
+        cmake = self.configure_cmake()
         cmake.install()
 
     def package_info(self):
