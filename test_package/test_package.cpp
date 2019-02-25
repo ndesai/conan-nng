@@ -1,12 +1,15 @@
-#include <nanomsg/nn.h>
-#include <nanomsg/pipeline.h>
+#include <nng/nng.h>
+#include <nng/protocol/reqrep0/rep.h>
+#include <nng/protocol/reqrep0/req.h>
+#include <nng/supplemental/util/platform.h>
 
 int main(int argc, char *argv[])
 {
-	int sock;
+    int rc;
+    
+    nng_socket sock;
+    rc = nng_req0_open(&sock);
+    nng_close(sock);
 
-	sock = nn_socket(AF_SP, NN_PUSH);
-	nn_shutdown(sock, 0);
-
-	return 0;
+    return 0;
 }
