@@ -8,7 +8,7 @@ import shutil
 
 class NanomsgConan(ConanFile):
     name = "nng"
-    version = "1.1.1"
+    version = "1.1.2"
     description = "Light-weight brokerless messaging"
     topics = ("conan", "nanomsg", "nng", "communication", "messaging", "protocols")
     url = "https://github.com/ndesai/conan-nng"
@@ -49,8 +49,9 @@ class NanomsgConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        sha256 = "cec54ed40c8feb5c0c66f81cfd200e9b243639a75d1b6093c95ee55885273205"
-        tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, self.version), sha256=sha256)
+        sha256 = "d1d0bc4d362feef2b608e3eae55c3829da968250e5c0c72d291097978b76d5e1"
+        commitSha = "7eaccabfef35774b13da215a53736d3b7956a592"
+        tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, commitSha), sha256=sha256)
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self.source_subfolder)
 
