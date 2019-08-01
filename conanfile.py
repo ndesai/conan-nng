@@ -66,6 +66,8 @@ class NanomsgConan(ConanFile):
         cmake.definitions["NNG_TOOLS"] = self.options.enable_tools
         cmake.definitions["NNG_ENABLE_NNGCAT"] = self.options.enable_nngcat
         cmake.definitions["NNG_ENABLE_COVERAGE"] = self.options.enable_coverage
+        if 'NNG_NUM_TASKQ_THREADS' in self.env and len(self.env['NNG_NUM_TASKQ_THREADS']) > 0:
+            cmake.definitions["NNG_NUM_TASKQ_THREADS"] = self.env['NNG_NUM_TASKQ_THREADS']
         cmake.configure()
         return cmake
 
