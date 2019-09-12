@@ -36,8 +36,7 @@ class NanomsgConan(ConanFile):
         'enable_tools': True,
         'enable_nngcat': True,
         'enable_coverage': False,
-        'enable_tls': False,
-        
+        'enable_tls': False
     }
     source_subfolder = "source_subfolder"
 
@@ -90,3 +89,6 @@ class NanomsgConan(ConanFile):
             self.cpp_info.libs.extend(['mswsock', 'ws2_32'])
         elif self.settings.os == "Linux":
             self.cpp_info.libs.extend(['anl', 'pthread'])
+        elif self.settings.os == "QNX":
+            self.cpp_info.libs.extend(['socket'])
+
