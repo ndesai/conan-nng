@@ -67,7 +67,7 @@ class NanomsgConan(ConanFile):
         cmake.definitions["NNG_ENABLE_COVERAGE"] = self.options.enable_coverage
         if 'NNG_NUM_TASKQ_THREADS' in self.env and len(self.env['NNG_NUM_TASKQ_THREADS']) > 0:
             cmake.definitions["NNG_NUM_TASKQ_THREADS"] = self.env['NNG_NUM_TASKQ_THREADS']
-        if self.options.fPIC:
+        if 'fPIC' in self.options and self.options.fPIC:
             cmake.definitions["CMAKE_C_FLAGS"] = "-fPIC"
             cmake.definitions["CMAKE_CXX_FLAGS"] = "-fPIC"
         cmake.configure()
