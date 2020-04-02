@@ -8,7 +8,7 @@ import shutil
 
 class NanomsgConan(ConanFile):
     name = "nng"
-    version = "1.2.5"
+    version = "1.3.0"
     description = "Light-weight brokerless messaging"
     topics = ("conan", "nanomsg", "nng", "communication", "messaging", "protocols")
     url = "https://github.com/nanomsg/nng.git"
@@ -48,7 +48,7 @@ class NanomsgConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        commitSha = "53ae1a5ab37fdfc9ad5c236df3eaf4dd63f0fee9" 
+        commitSha = "ff99ee51b34268f00aab3efd858e0798e92417c3"
         tools.get("{0}/archive/{1}.tar.gz".format(self.homepage, commitSha)) 
         extracted_dir = self.name + "-" + commitSha 
         os.rename(extracted_dir, self.source_subfolder)
@@ -66,6 +66,8 @@ class NanomsgConan(ConanFile):
         cmake.definitions["NNG_ENABLE_COVERAGE"] = self.options.enable_coverage
         if 'NNG_NUM_TASKQ_THREADS' in self.env and len(self.env['NNG_NUM_TASKQ_THREADS']) > 0:
             cmake.definitions["NNG_NUM_TASKQ_THREADS"] = self.env['NNG_NUM_TASKQ_THREADS']
+        if 'NNG_MAX_TASKQ_THREADS' in self.env and len(self.env['NNG_MAX_TASKQ_THREADS']) > 0:
+            cmake.definitions["NNG_MAX_TASKQ_THREADS"] = self.env['NNG_MAX_TASKQ_THREADS']
         if 'fPIC' in self.options and self.options.fPIC:
             cmake.definitions["CMAKE_C_FLAGS"] = "-fPIC"
             cmake.definitions["CMAKE_CXX_FLAGS"] = "-fPIC"
